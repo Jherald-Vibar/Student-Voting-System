@@ -1,4 +1,3 @@
-{{-- @vite(['resources/css/app.css','resources/js/app.js']) --}}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +10,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
     rel="stylesheet">
-
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body class="bg-gray-100" style="font-family: 'Poppins', sans-serif;">
@@ -27,7 +25,10 @@
                         <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                             <path d="M10 10a4 4 0 1 0 4 4 4 4 0 0 0-4-4zm0-6a6 6 0 1 0 6 6 6 6 0 0 0-6-6zM4 16a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v4H4v-4z"/>
                         </svg>
-                        <span class="text-lg font-medium text-white">{{ Auth::guard('student')->user()->name ?? 'N/A' }}</span>
+                        <span
+                        class="text-xs font-medium text-white cursor-help">
+                          {{Auth::guard('student')->user()->name ?? 'N/A' }}
+                    </span>
                     </div>
                     <div class="flex items-center space-x-2 ml-4">
                         <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
@@ -35,8 +36,13 @@
                         </svg>
                         <span class="text-sm text-white">BSIT{{ Auth::guard('student')->user()->year ?? 'N/A' }}01{{ Auth::guard('student')->user()->section ?? 'N/A' }}</span>
                     </div>
-
-                    <a href="" class="flex items-center px-4 py-2 hover:bg-[#003366]">
+                    <a href="{{route('student.home')}}" class="flex items-center px-4 py-2 hover:bg-[#003366]">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M3 12l2-2m0 0l7-7 7 7m-9 8v6h4v-6m-4 0h4" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        Home
+                    </a>
+                    <a href="{{route('studentElection')}}" class="flex items-center px-4 py-2 hover:bg-[#003366]">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path d="M4 6h16M4 12h16M4 18h7" stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
@@ -61,7 +67,6 @@
                         </svg>
                         Home
                     </a>
-
                     <a href="{{ route('student_list') }}" class="flex items-center px-4 py-2 hover:bg-[#003366]">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-2a4 4 0 100-8 4 4 0 000 8zm6 2a4 4 0 00-3-3.87" stroke-linecap="round" stroke-linejoin="round"/>

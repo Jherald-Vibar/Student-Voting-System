@@ -70,7 +70,6 @@
                 </div>
             </div>
         </div>
-
         <div class="mt-5">
             <h2 class="text-2xl font-semibold mb-4 text-gray-800">Current & Recent Election</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -79,15 +78,14 @@
                         <h3 class="text-xl font-bold text-[#001f3f] mb-2">{{$election->title}}</h3>
                         <p class="text-gray-700 mb-4">{{$election->description}}</p>
                         <p class="text-sm text-gray-500 mb-2">{{\Carbon\Carbon::parse($election->end_date)}}</p>
-                        <a href=""
+                        <a href="{{route('student-vote-form', ['eid' => $election->id])}}"
                            class="text-blue-600 hover:underline text-sm font-medium">
-                            View Details →
+                            Vote →
                         </a>
                 </div>
                 @endforeach
             </div>
         </div>
-
     </div>
 </div>
 @endsection

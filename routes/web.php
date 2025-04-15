@@ -9,6 +9,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\student\StudentAuthController;
 use App\Http\Controllers\ApprovalController;
 use App\Http\Controllers\PollController;
+use App\Http\Controllers\Student\StudentController;
 use App\Http\Middleware\CheckAdminLogin;
 use App\Http\Middleware\HigherPositionMiddleware;
 use App\Models\Election;
@@ -49,13 +50,24 @@ Route::group(['middleware' => 'auth:student', 'prefix' => 'students'], function(
         return view('students.home', compact('elections'));
     })->name('student.home');
 
+    Route::get('/election', [StudentController::class, 'studentElection'])->name('studentElection');
+    Route::get('/election/{eid}', [StudentController::class, 'studentVoteIndex'])->name('student-vote-form');
+    Route::post('/election/vote/{eid}', [StudentController::class, 'voteStore'])->name('votes-store');
+
 });
 
-Route::group(['middleware' => 'auth', 'prefix', 'admin'], function () {
+Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
     Route::get('/home', [AdminController::class, 'home'])->name('admin-home');
     Route::get('/admin-election', [AdminController::class, 'index'])->name('election-index');
     Route::post('/admin-election', [AdminController::class, 'electionStore'])->name('election-store');
     Route::get('/student-list', [StudentAuthController::class, 'useGoogleClient'])->name('student_list');
+    Route::get('/election/view/{id}', [AdminController::class, 'electionView'])->name('election-view');
+    Route::post('/election/{id}/position', [AdminController::class, 'positionStore'])->name('position-store');
+    Route::get('/election/{eid}/position/{pid}', [AdminController::class, 'candidatesIndex'])->name('position-view');
+    Route::post('/election/{eid}/position/{pid}', [AdminController::class, 'candidatesStore'])->name('candidate-store');
+    Route::get('/election/result', [AdminController::class, 'resultView'])->name('admin-result');
+    Route::get('election/results/{id}', [AdminController::class, 'resultAll'])->name('admin-result-all');
+
 });
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

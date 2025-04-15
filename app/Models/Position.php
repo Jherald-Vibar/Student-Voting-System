@@ -9,7 +9,9 @@ class Position extends Model
 {
     use HasFactory;
 
-
+    protected $fillable = [
+        'title', 'description', 'election_id'
+    ];
 
     public function election() {
         return $this->belongsTo(Election::class);

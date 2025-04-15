@@ -19,7 +19,7 @@
             <p class="text-gray-600">Assign candidates to positions and elections.</p>
         </a>
 
-        <a href="#" class="block bg-white shadow-md rounded-2xl p-5 hover:bg-gray-100 transition">
+        <a href="{{route('admin-result')}}" class="block bg-white shadow-md rounded-2xl p-5 hover:bg-gray-100 transition">
             <h2 class="text-xl font-semibold mb-2">View Votes</h2>
             <p class="text-gray-600">Track voting statistics and results.</p>
         </a>

@@ -10,6 +10,9 @@ class Vote extends Model
     use HasFactory;
 
 
+    protected $fillable = [
+        'student_id', 'election_id', 'position_id', 'candidate_id', 'voted_at'
+    ];
 
     public function student() {
         return $this->belongsTo(Student::class);

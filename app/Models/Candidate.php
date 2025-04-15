@@ -9,6 +9,9 @@ class Candidate extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'student_id', 'election_id', 'position_id', 'image',
+    ];
 
     public function student() {
         return $this->belongsTo(Student::class);
