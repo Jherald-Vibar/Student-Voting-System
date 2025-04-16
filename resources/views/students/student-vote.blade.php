@@ -2,6 +2,7 @@
 
 @section('content')
 <div class="max-w-6xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
+    @include('layouts.breadcrumb')
     <div class="bg-white shadow-xl rounded-2xl p-8">
         <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">
             🗳️ Vote in <span class="text-blue-600">{{ $election->title }}</span>

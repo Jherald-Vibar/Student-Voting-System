@@ -36,7 +36,7 @@
                 <div>
                     <h2 class="text-lg font-semibold mb-2">Vote Now</h2>
                     <p class="text-sm text-gray-700">Participate in the current election.</p>
-                    <a href="" class="inline-block mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Go to Vote</a>
+                    <a href="{{route('studentElection')}}" class="inline-block mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Go to Vote</a>
                 </div>
             </div>
             <div class="p-4 bg-green-100 rounded shadow flex items-center">
@@ -46,7 +46,7 @@
                 <div>
                     <h2 class="text-lg font-semibold mb-2">View Results</h2>
                     <p class="text-sm text-gray-700">Check the latest election results.</p>
-                    <a href="" class="inline-block mt-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">View Results</a>
+                    <a href="{{route('student-election-winner')}}" class="inline-block mt-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">View Results</a>
                 </div>
             </div>
             <div class="p-4 bg-yellow-100 rounded shadow flex items-center">

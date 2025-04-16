@@ -44,7 +44,7 @@ Route::group(['prefix' => 'student'], function() {
     Route::post('/register', [StudentAuthController::class, 'store'])->name('store');
 });
 
-Route::group(['middleware' => 'auth:student', 'prefix' => 'students'], function() {
+Route::group(['middleware' => ['auth:student', 'no.cache'], 'prefix' => 'students'], function() {
     Route::get('/student-home', function() {
         $elections = Election::all();
         return view('students.home', compact('elections'));
@@ -53,21 +53,36 @@ Route::group(['middleware' => 'auth:student', 'prefix' => 'students'], function(
     Route::get('/election', [StudentController::class, 'studentElection'])->name('studentElection');
     Route::get('/election/{eid}', [StudentController::class, 'studentVoteIndex'])->name('student-vote-form');
     Route::post('/election/vote/{eid}', [StudentController::class, 'voteStore'])->name('votes-store');
+    Route::get('elections/winner', [StudentController::class, 'electionsWinner'])->name('student-election-winner');
 
 });
 
-Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
+Route::group(['middleware' => ['auth', 'no.cache'], 'prefix' => 'admin'], function () {
+    //Pages
     Route::get('/home', [AdminController::class, 'home'])->name('admin-home');
-    Route::get('/admin-election', [AdminController::class, 'index'])->name('election-index');
-    Route::post('/admin-election', [AdminController::class, 'electionStore'])->name('election-store');
     Route::get('/student-list', [StudentAuthController::class, 'useGoogleClient'])->name('student_list');
-    Route::get('/election/view/{id}', [AdminController::class, 'electionView'])->name('election-view');
-    Route::post('/election/{id}/position', [AdminController::class, 'positionStore'])->name('position-store');
-    Route::get('/election/{eid}/position/{pid}', [AdminController::class, 'candidatesIndex'])->name('position-view');
+
+    //Candidate
     Route::post('/election/{eid}/position/{pid}', [AdminController::class, 'candidatesStore'])->name('candidate-store');
+
+    //Results
     Route::get('/election/result', [AdminController::class, 'resultView'])->name('admin-result');
     Route::get('election/results/{id}', [AdminController::class, 'resultAll'])->name('admin-result-all');
 
+    //Position
+    Route::post('/election/{id}/position', [AdminController::class, 'positionStore'])->name('position-store');
+    Route::get('/election/{eid}/position/{pid}', [AdminController::class, 'candidatesIndex'])->name('position-view');
+    Route::delete('/election/delete/{id}', [AdminController::class, 'positionDelete'])->name('position-delete');
+
+
+    //Election
+    Route::get('/admin-election', [AdminController::class, 'index'])->name('election-index');
+    Route::post('/admin-election', [AdminController::class, 'electionStore'])->name('election-store');
+    Route::get('/election/position/{id}', [AdminController::class, 'electionView'])->name('election-position');
+    Route::get('election/winner', [AdminController::class, 'electionWinner'])->name('election-winner');
+    Route::get('/election/{id}/edit', [AdminController::class, 'editForm'])->name('election-edit');
+    Route::put('election/{id}/update', [AdminController::class, 'update'])->name('election-update');
+    Route::delete('/election/{id}', [AdminController::class, 'electionDelete'])->name('election-delete');
 });
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

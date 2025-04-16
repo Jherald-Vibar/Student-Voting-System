@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <div class="max-w-3xl mx-auto py-10 px-6">
+    @include('layouts.breadcrumb')
     @if($elections->count())
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
         @foreach($elections as $election)

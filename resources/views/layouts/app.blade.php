@@ -15,40 +15,38 @@
 <body class="bg-gray-100" style="font-family: 'Poppins', sans-serif;">
     <div class="flex min-h-screen">
         <!-- Sidebar -->
-        <aside class="w-64 h-screen bg-[#001f3f] text-white fixed">
-            <div class="p-4 text-lg font-poppins rounded-lg font-bold flex items-center gap-3">
-                <img src="{{ asset('img/spcc.png') }}" width="200px" alt="SPCC">
+        <aside class="w-64 h-screen bg-[#001f3f] text-white fixed top-0 left-0 p-4">
+            <div class="flex items-center gap-3 mb-8 ml-10">
+                <img src="{{ asset('img/spcc.png') }}" width="150px" alt="SPCC" class="rounded-md">
             </div>
-            <nav class="mt-4 space-y-2">
+            <nav class="mt-4 space-y-4">
                 @auth('student')
-                    <div class="flex items-center space-x-2 ml-4">
-                        <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M10 10a4 4 0 1 0 4 4 4 4 0 0 0-4-4zm0-6a6 6 0 1 0 6 6 6 6 0 0 0-6-6zM4 16a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v4H4v-4z"/>
-                        </svg>
-                        <span
-                        class="text-xs font-medium text-white cursor-help">
-                          {{Auth::guard('student')->user()->name ?? 'N/A' }}
-                    </span>
+                    <div class="flex items-center space-x-3 px-4 py-2 hover:bg-[#003366] rounded-md">
+                        <img src="{{ asset('student_images/' . Auth::guard('student')->user()->image) }}"
+                             alt="Student Image" width="40" height="40" class="rounded-full border-2 border-white">
+                        <div class="text-sm font-medium text-white">
+                            {{ Auth::guard('student')->user()->name ?? 'N/A' }}
+                        </div>
                     </div>
-                    <div class="flex items-center space-x-2 ml-4">
+                    <div class="flex items-center space-x-2 px-4 py-2 hover:bg-[#003366] rounded-md">
                         <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                             <path d="M10 5a2 2 0 1 0 2 2 2 2 0 0 0-2-2zM4 5a2 2 0 1 0 2 2 2 2 0 0 0-2-2zM4 10a2 2 0 1 0 2 2 2 2 0 0 0-2-2zM10 10a2 2 0 1 0 2 2 2 2 0 0 0-2-2zM4 15a2 2 0 1 0 2 2 2 2 0 0 0-2-2zM10 15a2 2 0 1 0 2 2 2 2 0 0 0-2-2z"/>
                         </svg>
                         <span class="text-sm text-white">BSIT{{ Auth::guard('student')->user()->year ?? 'N/A' }}01{{ Auth::guard('student')->user()->section ?? 'N/A' }}</span>
                     </div>
-                    <a href="{{route('student.home')}}" class="flex items-center px-4 py-2 hover:bg-[#003366]">
+                    <a href="{{ route('student.home') }}" class="flex items-center px-4 py-2 hover:bg-[#003366] rounded-md">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path d="M3 12l2-2m0 0l7-7 7 7m-9 8v6h4v-6m-4 0h4" stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
                         Home
                     </a>
-                    <a href="{{route('studentElection')}}" class="flex items-center px-4 py-2 hover:bg-[#003366]">
+                    <a href="{{ route('studentElection') }}" class="flex items-center px-4 py-2 hover:bg-[#003366] rounded-md">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path d="M4 6h16M4 12h16M4 18h7" stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
                         Election
                     </a>
-                    <form action="{{route('logout')}}" method="POST" class="flex items-center px-4 py-2 hover:bg-[#003366]">
+                    <form action="{{ route('logout') }}" method="POST" class="flex items-center px-4 py-2 hover:bg-[#003366] rounded-md">
                         @csrf
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path d="M17 16l4-4m0 0l-4-4m4 4H7" stroke-linecap="round" stroke-linejoin="round" />
@@ -57,30 +55,31 @@
                         <button type="submit">Logout</button>
                     </form>
                 @endauth
+
                 @auth('web')
-                    <div class="px-4 py-2">
+                    <div class="px-4 py-2 text-white">
                         <h1 class="block">User: {{ Auth::user()->name }}</h1>
                     </div>
-                    <a href="{{route('admin-home')}}" class="flex items-center px-4 py-2 hover:bg-[#003366]">
+                    <a href="{{ route('admin-home') }}" class="flex items-center px-4 py-2 hover:bg-[#003366] rounded-md">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path d="M3 12l2-2m0 0l7-7 7 7m-9 8v6h4v-6m-4 0h4" stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
                         Home
                     </a>
-                    <a href="{{ route('student_list') }}" class="flex items-center px-4 py-2 hover:bg-[#003366]">
+                    <a href="{{ route('student_list') }}" class="flex items-center px-4 py-2 hover:bg-[#003366] rounded-md">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-2a4 4 0 100-8 4 4 0 000 8zm6 2a4 4 0 00-3-3.87" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                         Student List
                     </a>
 
-                    <a href="{{route('election-index')}}" class="flex items-center px-4 py-2 hover:bg-[#003366]">
+                    <a href="{{ route('election-index') }}" class="flex items-center px-4 py-2 hover:bg-[#003366] rounded-md">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path d="M4 6h16M4 12h16M4 18h7" stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
                         Election
                     </a>
-                    <form action="{{route('logout')}}" method="POST" class="flex items-center px-4 py-2 hover:bg-[#003366]">
+                    <form action="{{ route('logout') }}" method="POST" class="flex items-center px-4 py-2 hover:bg-[#003366] rounded-md">
                         @csrf
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path d="M17 16l4-4m0 0l-4-4m4 4H7" stroke-linecap="round" stroke-linejoin="round" />
@@ -89,15 +88,16 @@
                         <button type="submit">Logout</button>
                     </form>
                 @endauth
+
                 @guest
-                    <a href="{{ route('home') }}" class="flex items-center px-4 py-2 hover:bg-[#003366]">
+                    <a href="{{ route('home') }}" class="flex items-center px-4 py-2 hover:bg-[#003366] rounded-md">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path d="M3 12l2-2m0 0l7-7 7 7m-9 8v6h4v-6m-4 0h4" stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
                         Home
                     </a>
 
-                    <a href="{{ route('login') }}" class="flex items-center px-4 py-2 hover:bg-[#003366]">
+                    <a href="{{ route('login') }}" class="flex items-center px-4 py-2 hover:bg-[#003366] rounded-md">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" viewBox="0 0 24 24"><path fill="#fff" d="M12 21v-2h7V5h-7V3h7q.825 0 1.413.588T21 5v14q0 .825-.587 1.413T19 21zm-2-4l-1.375-1.45l2.55-2.55H3v-2h8.175l-2.55-2.55L10 7l5 5z"/></svg>
                         Login
                     </a>

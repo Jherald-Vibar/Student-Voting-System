@@ -2,6 +2,7 @@
 
 @section('content')
 <div class="container mx-auto px-4 py-12">
+    @include('layouts.breadcrumb')
     <h2 class="text-4xl font-extrabold text-center text-white mb-12 bg-[#001f3f] p-4 rounded-lg">
         Election Results - {{ $election->title }}
     </h2>

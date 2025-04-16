@@ -1,10 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="max-w-3xl mx-auto py-10 px-6">
+<div class="max-w-5xl w-full mx-auto py-10 px-6">
+    @include('layouts.breadcrumb')
     <h1 class="text-2xl font-bold mb-6">Create New Election</h1>
     <div class="flex justify-end mb-4">
-        <button onclick="openElectionModal()" class="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-all duration-200 shadow-md">
+        <button onclick="openElectionModal()" class="flex items-center gap-2 px-4 py-2 bg-[#001f3f] text-white rounded-xl hover:bg-blue-700 transition-all duration-200 shadow-md">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
             </svg>
@@ -50,32 +51,45 @@
         </div>
     </div>
 
-        @if($elections->count())
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
-            @foreach($elections as $election)
-            <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition duration-300">
-                <a href="{{route('election-view', ['id' => $election->id])}}"  class="flex items-center justify-between mb-4">
-                    <h2 class="text-xl font-semibold text-gray-800">{{ $election->title }}</h2>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2a4 4 0 014-4h3m4 0H5m4-4V7a4 4 0 014-4h3" />
-                    </svg>
-                </a>
+    @if($elections->count())
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
+        @foreach($elections as $election)
+        <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition duration-300 flex flex-col justify-between h-full">
+            <a href="{{ route('election-position', ['id' => $election->id]) }}" class="flex items-center justify-between mb-4">
+                <h2 class="text-xl font-semibold text-gray-800">{{ $election->title }}</h2>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2a4 4 0 014-4h3m4 0H5m4-4V7a4 4 0 014-4h3" />
+                </svg>
+            </a>
+            <p class="text-gray-600 text-sm mb-4">{{ \Illuminate\Support\Str::limit($election->description, 100) }}</p>
 
-                <p class="text-gray-600 text-sm mb-4">{{ \Illuminate\Support\Str::limit($election->description, 100) }}</p>
-
-                <div class="text-sm text-gray-500 mb-2">
-                    <span class="font-medium text-gray-700">Start:</span> {{ \Carbon\Carbon::parse($election->start_date)->format('M d, Y h:i A') }}
-                </div>
-                <div class="text-sm text-gray-500">
-                    <span class="font-medium text-gray-700">End:</span> {{ \Carbon\Carbon::parse($election->end_date)->format('M d, Y h:i A') }}
-                </div>
+            <div class="text-sm text-gray-500 mb-2">
+                <span class="font-medium text-gray-700">Start:</span> {{ \Carbon\Carbon::parse($election->start_date)->format('M d, Y h:i A') }}
             </div>
-            @endforeach
+            <div class="text-sm text-gray-500 mb-4">
+                <span class="font-medium text-gray-700">End:</span> {{ \Carbon\Carbon::parse($election->end_date)->format('M d, Y h:i A') }}
+            </div>
+
+            <div class="flex justify-end gap-2 mt-auto pt-4 border-t border-gray-100">
+                <a href="{{route('election-edit', ['id' => $election->id])}}" class="px-4 py-2 bg-[#001f3f] text-white rounded-lg text-sm hover:bg-yellow-500 transition">
+                    Edit
+                </a>
+                <form id="deleteElectionForm-{{ $election->id }}" action="{{ route('election-delete', ['id' => $election->id]) }}" method="POST" class="inline">
+                    @csrf
+                    @method('DELETE')
+                    <button type="button" class="px-4 py-2 bg-[#001f3f] text-white rounded-lg text-sm hover:bg-red-600 transition" onclick="confirmDelete({{ $election->id }})">
+                        Delete
+                    </button>
+                </form>
+            </div>
         </div>
-        @else
-            <p class="text-center text-gray-500 mt-10">No elections created yet.</p>
-        @endif
+        @endforeach
+    </div>
+    @else
+        <p class="text-center text-gray-500 mt-10">No elections created yet.</p>
+    @endif
 </div>
+
 <style>
     @keyframes fade-in {
         from { opacity: 0; transform: scale(0.95); }
@@ -85,6 +99,7 @@
         animation: fade-in 0.2s ease-out;
     }
 </style>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     function openElectionModal() {
@@ -94,7 +109,6 @@
     function closeElectionModal() {
         document.getElementById('addElection').classList.add('hidden');
     }
-
 
     @if (session('success'))
         document.addEventListener('DOMContentLoaded', function() {
@@ -115,6 +129,23 @@
             });
         });
     @endif
-</script>
+
+
+    function confirmDelete(id) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "This action will delete the election permanently!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById(`deleteElectionForm-${id}`).submit();
+            }
+        });
+    }
 </script>
 @endsection

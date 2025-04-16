@@ -15,15 +15,17 @@ use Illuminate\Support\Facades\Validator;
 class StudentController extends Controller
 {
     public function studentElection () {
+        $title = "Election";
         $student = Auth::guard('student')->user();
         $elections = Election::all();
-        return view('Election.student-election', compact('elections', 'student'));
+        return view('students.student-election', compact('elections', 'student', 'title'));
     }
 
     public function studentVoteIndex($eid)
     {
+        $title = "Voting Page";
         $election = Election::with('positions.candidates')->findOrFail($eid);
-        return view('Election.student-vote', compact('election'));
+        return view('students.student-vote', compact('election', 'title'));
     }
 
     public function voteStore(Request $request, $eid) {
@@ -69,8 +71,16 @@ class StudentController extends Controller
         }
 
         return redirect()->back()->with('success', "Voted Successfully!");
+    }
 
+    public function electionsWinner() {
+        $title = "Election Winner";
+        $elections = Election::with('positions.candidates.votes')->get();
 
+        $notEndYet = $elections->contains(function ($election) {
+            return $election->end_date > Carbon::now();
+        });
 
+        return view('students.student-winner', compact('title', 'elections', 'notEndYet'));
     }
 }
