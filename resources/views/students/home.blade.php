@@ -82,16 +82,33 @@
         <div class="mt-6 sm:mt-10">
             <h2 class="text-xl sm:text-2xl font-semibold mb-4 text-gray-800">Current & Recent Elections</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-                @foreach ($elections as $election )
-                <div class="bg-white p-4 rounded shadow hover:shadow-lg transition">
-                    <h3 class="text-lg sm:text-xl font-bold text-[#001f3f] mb-2">{{$election->title}}</h3>
-                    <p class="text-gray-700 text-sm mb-3">{{$election->description}}</p>
-                    <p class="text-xs text-gray-500 mb-2">{{\Carbon\Carbon::parse($election->end_date)}}</p>
-                    <a href="{{route('student-vote-form', ['eid' => $election->id])}}"
-                       class="text-blue-600 hover:underline text-sm font-medium">
-                        Vote →
-                    </a>
-                </div>
+                @foreach ($elections as $election)
+                    @php
+                        $hasEnded = \Carbon\Carbon::parse($election->end_date)->lt(now());
+                    @endphp
+
+                    <div class="bg-white p-4 rounded-xl shadow hover:shadow-lg transition border-l-4 {{ $hasEnded ? 'border-red-500' : 'border-green-500' }}">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-lg sm:text-xl font-bold text-[#001f3f]">{{ $election->title }}</h3>
+                            <span class="text-xs font-bold px-2 py-1 rounded-full
+                                {{ $hasEnded ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700' }}">
+                                {{ $hasEnded ? 'Ended' : 'Ongoing' }}
+                            </span>
+                        </div>
+
+                        <p class="text-gray-700 text-sm mb-3">
+                            {{ \Illuminate\Support\Str::limit($election->description, 100) }}
+                        </p>
+
+                        <p class="text-xs text-gray-500 mb-3">
+                            Ends on: {{ \Carbon\Carbon::parse($election->end_date)->format('M d, Y h:i A') }}
+                        </p>
+
+                        <a href="{{ $hasEnded ? route('student-election-winner', ['id' => $election->id]) : route('student-vote-form', ['eid' => $election->id]) }}"
+                           class="inline-block text-sm font-medium {{ $hasEnded ? 'text-red-600 hover:underline' : 'text-blue-600 hover:underline' }}">
+                            {{ $hasEnded ? 'View Results →' : 'Vote →' }}
+                        </a>
+                    </div>
                 @endforeach
             </div>
         </div>
