@@ -3,6 +3,13 @@
 @section('content')
 <div class="container mx-auto px-4 py-10">
     @include('layouts.breadcrumb')
+    <div class="flex justify-start mb-6">
+        <button
+            class=" bg-[#001f3f] text-white rounded-lg px-6 py-3 font-semibold hover:text-blue-600 ansition duration-300"
+            onclick="window.location.href='{{ route('admin-home') }}'">
+            &larr;
+        </button>
+    </div>
 
     <h1 class="text-3xl font-bold text-center text-white bg-slate-900 py-4 px-6 rounded-lg shadow mb-10">
         Election Results

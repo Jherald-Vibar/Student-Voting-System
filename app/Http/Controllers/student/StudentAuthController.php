@@ -76,8 +76,8 @@ class StudentAuthController extends Controller
         $service = new Google_Service_Sheets($client);
 
 
-        $spreadsheetId = '1uX6fxS6ocZ8Tgtcm_jyUqP2UlZDuaMArDzoapktKi8Q';
-        $range = 'REGISTERED STUDENTS (DRAFT)!D6:M683';
+        $spreadsheetId = '1IIJZI0bNvlW2apmXvrksdVNocxSqiToSpOndxL6RC5o';
+        $range = 'Students!E6:M683';
 
         try {
 
@@ -93,10 +93,10 @@ class StudentAuthController extends Controller
 
             $found = false;
             foreach ($values as $row) {
-                if ($row[1] == $studentNumber) {
+                if ($row[0] == $studentNumber) {
                     $found = true;
-                    $fullName = trim($row[3] . ' ' . $row[4] . ' ' . $row[2]);
-                    $gmail = $row[5] ?? null;
+                    $fullName = trim($row[2] . ' ' . $row[3] . ' ' . $row[1]);
+                    $gmail = $row[4] ?? null;
                     break;
                 }
             }
@@ -130,6 +130,8 @@ class StudentAuthController extends Controller
             'section' => ['required', 'string'],
         ]);
 
+
+        dd($request->all());
 
         try {
             $student = Student::create([
@@ -172,8 +174,8 @@ class StudentAuthController extends Controller
         $service = new Google_Service_Sheets($client);
 
 
-        $spreadsheetId = '1uX6fxS6ocZ8Tgtcm_jyUqP2UlZDuaMArDzoapktKi8Q';
-        $range = 'REGISTERED STUDENTS (DRAFT)!B6:M683';
+        $spreadsheetId = '1IIJZI0bNvlW2apmXvrksdVNocxSqiToSpOndxL6RC5o';
+        $range = 'Students!E6:M683';
 
         try {
 

@@ -149,19 +149,18 @@ class AdminController extends Controller
         return view('Election.election-result', compact('elections', 'title'));
     }
 
-    public function resultAll($eid) {
-        $title = "Voting Tally";
-        $election = Election::findOrFail($eid);
-        $candidates = Candidate::with(['votes', 'position'])
-        ->where('election_id', $election->id)
-        ->get();
-        return view('Election.election-result-all', compact('election', 'candidates', 'title'));
-    }
+        public function resultAll($eid) {
+            $title = "Voting Tally";
+            $election = Election::findOrFail($eid);
+            $candidates = Candidate::with(['votes', 'position'])
+            ->where('election_id', $election->id)
+            ->get();
+            return view('Election.election-result-all', compact('election', 'candidates', 'title'));
+        }
 
     public function electionWinner() {
         $title = "Election Winner";
         $elections = Election::with('positions.candidates.votes')->get();
-
         $notEndYet = $elections->contains(function ($election) {
             return $election->end_date > Carbon::now();
         });
@@ -247,6 +246,62 @@ class AdminController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Error deleting position: ' . $e->getMessage());
         }
+    }
+
+    public function candidateDelete($id) {
+        try {
+            $candidate = Candidate::findOrFail($id);
+            $candidate->delete();
+
+            return redirect()->route('position-view')->with('success', 'Candidate Successfully Deleted!');
+        }
+         catch(\Exception $e) {
+            return redirect()->back()->with('error', 'Error deleting candidate: ' .$e->getMessage());
+         }
+    }
+
+
+    public function candidateEdit(Request $request, $id) {
+        $candidate = Candidate::findOrFail($id);
+
+
+        $validator = Validator::make($request->all(), [
+            'image' => 'nullable|image|mimes:png,jpg,jpeg,jfif',
+            'student_id' => 'required|unique:candidates,student_id,NULL,id,position_id,' . $candidate->position_id,
+        ]);
+
+        if($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+
+        $validated = $validator->validated();
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $fileName = time() . '.' . $file->getClientOriginalExtension();
+
+
+            $file->move(public_path('candidate_images'), $fileName);
+
+
+            $validated['image'] = $fileName;
+        }
+
+        try {
+            $candidate->update([
+                'student_id' => $request->student_id,
+                'election_id' => $candidate->election_id,
+                'position_id' => $candidate->position_id,
+                'image' => $validated['image'],
+            ]);
+            return redirect()->back()->with('success', "Candidate Updated Successfully!");
+        }
+        catch(\Exception $e) {
+            return redirect()->back()->with('error', $e);
+        }
+
+
     }
 
 }

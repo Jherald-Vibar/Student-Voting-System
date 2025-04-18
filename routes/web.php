@@ -64,6 +64,8 @@ Route::group(['middleware' => ['auth', 'no.cache'], 'prefix' => 'admin'], functi
 
     //Candidate
     Route::post('/election/{eid}/position/{pid}', [AdminController::class, 'candidatesStore'])->name('candidate-store');
+    Route::put('election/update-candidate/{id}', [AdminController::class, 'candidateEdit'])->name('candidate-update');
+    Route::delete('/election/position-delete/{id}', [AdminController::class, 'candidateDelete'])->name('candidate-delete');
 
     //Results
     Route::get('/election/result', [AdminController::class, 'resultView'])->name('admin-result');

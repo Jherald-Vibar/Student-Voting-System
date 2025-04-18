@@ -1,8 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="max-w-5xl w-full mx-auto py-10 px-6">
+<div class="container mx-auto px-4 mt-5">
     @include('layouts.breadcrumb')
+    <div class="flex justify-start mb-6">
+        <button
+            class=" bg-[#001f3f] text-white rounded-lg px-6 py-3 font-semibold hover:text-blue-600 ansition duration-300"
+            onclick="window.location.href='{{ route('admin-home') }}'">
+            &larr;
+        </button>
+    </div>
     <h1 class="text-2xl font-bold mb-6">Create New Election</h1>
     <div class="flex justify-end mb-4">
         <button onclick="openElectionModal()" class="flex items-center gap-2 px-4 py-2 bg-[#001f3f] text-white rounded-xl hover:bg-blue-700 transition-all duration-200 shadow-md">

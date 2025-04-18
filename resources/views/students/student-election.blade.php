@@ -1,7 +1,14 @@
 @extends('layouts.app')
 @section('content')
-<div class="max-w-3xl mx-auto py-10 px-6">
+<div class="container mx-auto px-4 mt-5">
     @include('layouts.breadcrumb')
+    <div class="flex justify-start mb-6">
+        <button
+            class=" bg-[#001f3f] text-white rounded-lg px-6 py-3 font-semibold hover:text-blue-600 ansition duration-300"
+            onclick="window.location.href='{{ route('student.home') }}'">
+            &larr;
+        </button>
+    </div>
     @if($elections->count())
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
         @foreach($elections as $election)

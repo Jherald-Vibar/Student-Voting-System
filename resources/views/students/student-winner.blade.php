@@ -2,7 +2,13 @@
 @section('content')
 <div class="container mx-auto px-4 py-10">
     @include('layouts.breadcrumb')
-
+    <div class="flex justify-start mb-6">
+        <button
+            class=" bg-[#001f3f] text-white rounded-lg px-6 py-3 font-semibold hover:text-blue-600 ansition duration-300"
+            onclick="window.location.href='{{ route('student.home') }}'">
+            &larr;
+        </button>
+    </div>
     <h1 class="text-3xl font-bold text-center text-white bg-slate-900 py-4 px-6 rounded-lg shadow mb-10">
         Election Results
     </h1>
@@ -33,7 +39,6 @@
 
                             <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
                                 <h3 class="text-lg font-bold text-gray-900 mb-2">{{ $position->title }}</h3>
-
                                 @if ($winner)
                                     <div class="flex items-center space-x-4 text-green-700">
                                         <img src="{{ asset('candidate_images/' . $winner->image) }}" width="40" height="40" alt="Winner's Image" class="rounded-full border border-gray-300 shadow-sm">

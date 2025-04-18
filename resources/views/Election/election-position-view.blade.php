@@ -10,9 +10,14 @@
 
     <div class="flex justify-start mb-6">
         <button
-            class=" text-black rounded-lg px-6 py-3 font-semibold hover:text-blue-600 ansition duration-300"
+            class=" bg-[#001f3f] text-white rounded-lg px-6 py-3 font-semibold hover:text-blue-600 ansition duration-300"
             onclick="window.location.href='{{ route('election-index', ['id' => $election->id]) }}'">
             &larr;
+        </button>
+    </div>
+    <div class="flex justify-end mb-6">
+        <button onclick="openPositionModal()" class="bg-[#001f3f] hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl font-medium transition duration-300">
+            + Add Position
         </button>
     </div>
     <div id="addPosition" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">

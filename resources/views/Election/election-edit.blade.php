@@ -1,8 +1,14 @@
 @extends('layouts.app')
-
 @section('content')
-<div class="max-w-5xl w-full mx-auto py-10 px-6">
+<div class="max-w-full w-full mx-auto py-10 px-6">
     @include('layouts.breadcrumb')
+    <div class="flex justify-start mb-6">
+        <button
+            class=" bg-[#001f3f] text-white rounded-lg px-6 py-3 font-semibold hover:text-blue-600 ansition duration-300"
+            onclick="window.location.href='{{ route('election-index') }}'">
+            &larr;
+        </button>
+    </div>
     <h1 class="text-3xl font-bold text-gray-800 mb-8">Edit Election</h1>
     <div class="bg-white p-8 rounded-2xl shadow-lg">
         <form action="{{ route('election-update', ['id' => $election->id]) }}" method="POST" class="space-y-8">
