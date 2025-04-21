@@ -28,3 +28,14 @@ Follow these steps to set up the project on your local machine.
 ```bash
 git clone https://github.com/Jherald-Vibar/Student-Voting-System.git
 cd Student-Voting-System
+
+composer install
+npm install && npm run dev
+
+cp .env.example .env
+php artisan key:generate
+
+php artisan migrate
+php artisan db:seed
+
+php artisan serve
