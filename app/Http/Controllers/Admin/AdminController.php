@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Validator;
 
 class AdminController extends Controller
 {
+    //Complete
     public function home() {
         $title = "Home";
         $students = Student::has('votes')->with('votes')->get();
