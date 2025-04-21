@@ -23,21 +23,49 @@ Welcome to the **Student Voting System**, a web-based application built with **L
 
 Follow these steps to set up the project on your local machine.
 
-### 1. Clone the Repository
+## 🚀 Getting Started
 
-```bash
-git clone https://github.com/Jherald-Vibar/Student-Voting-System.git
-cd Student-Voting-System
+Follow these steps to set up the project on your local machine.
 
-### 2. Install Dependencies
-composer install
-npm install && npm run dev
+1. **Clone the Repository**
 
-### 3. Set Up Environment
-cp .env.example .env
-php artisan key:generate
+    ```bash
+    git clone https://github.com/Jherald-Vibar/Student-Voting-System.git
+    cd Student-Voting-System
+    ```
 
-php artisan migrate
-php artisan db:seed
+2. **Install Dependencies**
 
-php artisan serve
+    ```bash
+    composer install
+    npm install && npm run dev
+    ```
+
+3. **Set Up Environment**
+
+    ```bash
+    cp .env.example .env
+    php artisan key:generate
+    ```
+
+    Update your `.env` file with your database and mail configuration.
+
+4. **Run Migrations**
+
+    ```bash
+    php artisan migrate
+    ```
+
+    Optionally, seed some sample data:
+
+    ```bash
+    php artisan db:seed
+    ```
+
+5. **Start the Development Server**
+
+    ```bash
+    php artisan serve
+    ```
+
+    Visit `http://localhost:8000` to access the system.
