@@ -19,7 +19,8 @@ class AdminController extends Controller
         $students = Student::has('votes')->with('votes')->get();
         $totalStudents = Student::count();
         $totalElections = Election::count();
-        return view('admin.admin-home', compact('students', 'title', 'totalStudents', 'totalElections'));
+        $totalVotedStudents = Student::has('votes')->with('votes')->count();
+        return view('admin.admin-home', compact('students', 'title', 'totalStudents', 'totalElections', 'totalVotedStudents'));
     }
 
     public function index() {
@@ -251,9 +252,20 @@ class AdminController extends Controller
     public function candidateDelete($id) {
         try {
             $candidate = Candidate::findOrFail($id);
+
+            $position = $candidate->position;
+            $electionId = $position->election->id;
+            $positionId = $position->id;
+
+            $imagePath = public_path('candidate_images/' . $candidate->image);
+
+            if ($candidate->image && file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+
             $candidate->delete();
 
-            return redirect()->route('position-view')->with('success', 'Candidate Successfully Deleted!');
+            return redirect()->route('position-view', ['eid' => $electionId, 'pid' => $positionId])->with('success', 'Candidate Successfully Deleted!');
         }
          catch(\Exception $e) {
             return redirect()->back()->with('error', 'Error deleting candidate: ' .$e->getMessage());

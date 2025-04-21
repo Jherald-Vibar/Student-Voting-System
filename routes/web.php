@@ -13,6 +13,7 @@ use App\Http\Controllers\Student\StudentController;
 use App\Http\Middleware\CheckAdminLogin;
 use App\Http\Middleware\HigherPositionMiddleware;
 use App\Models\Election;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,11 +27,14 @@ use App\Models\Election;
 */
 
 Route::get('/', function () {
+    if(Auth::guard('student')->check()) {
+        return redirect()->route('student.home');
+    } else if(Auth::check()) {
+        return redirect()->route('admin-home');
+    }
     $elections = Election::all();
     return view('home', compact('elections'));
 })->name('home');
-
-
 
 
 //Auth
@@ -75,7 +79,6 @@ Route::group(['middleware' => ['auth', 'no.cache'], 'prefix' => 'admin'], functi
     Route::post('/election/{id}/position', [AdminController::class, 'positionStore'])->name('position-store');
     Route::get('/election/{eid}/position/{pid}', [AdminController::class, 'candidatesIndex'])->name('position-view');
     Route::delete('/election/delete/{id}', [AdminController::class, 'positionDelete'])->name('position-delete');
-
 
     //Election
     Route::get('/admin-election', [AdminController::class, 'index'])->name('election-index');

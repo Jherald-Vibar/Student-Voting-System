@@ -76,7 +76,7 @@
     <div id="editCandidateModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-xl p-8 relative animate-fade-in">
             <h2 class="text-2xl font-semibold text-gray-800 mb-6">Edit Candidate</h2>
-            <form id="editCandidateForm" action="{{route('candidate-update', ['id' => $candidate->id])}}" method="POST" enctype="multipart/form-data" class="space-y-5">
+            <form id="editCandidateForm" action="" method="POST" enctype="multipart/form-data" class="space-y-5">
                 @csrf
                 @method('PUT')
 
@@ -154,7 +154,9 @@
 
         function openEditCandidateModal(id, studentId, image) {
             document.getElementById('edit_student_id').value = studentId;
+            document.getElementById('editCandidateForm').action = "{{ route('candidate-update', ['id' => '__id__']) }}".replace('__id__', id);
             document.getElementById('editCandidateModal').classList.remove('hidden');
+
         }
 
         function closeEditCandidateModal() {
