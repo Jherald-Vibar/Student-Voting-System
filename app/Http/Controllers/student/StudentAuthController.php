@@ -131,8 +131,6 @@ class StudentAuthController extends Controller
         ]);
 
 
-        dd($request->all());
-
         try {
             $student = Student::create([
                 'name' => $validated['name'],
