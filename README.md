@@ -29,6 +29,7 @@ Follow these steps to set up the project on your local machine.
 git clone https://github.com/Jherald-Vibar/Student-Voting-System.git
 cd Student-Voting-System
 
+2. Install Dependencies
 composer install
 npm install && npm run dev
 
